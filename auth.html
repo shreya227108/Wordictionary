@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup | WORDICTIONARY</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Black and Yellow Theme */
+        body {
+            background-color: #000; /* Black background */
+            color: #ffcc00; /* Yellow text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #111; /* Dark background for the form */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(255, 204, 0, 0.6); /* Yellow glow */
+            width: 350px;
+            text-align: center;
+        }
+
+        h3 {
+            color: #ffcc00; /* Yellow heading */
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            color: #ffcc00; /* Yellow label text */
+        }
+
+        .form-control {
+            background-color: #222; /* Dark input background */
+            border: 2px solid #ffcc00; /* Yellow border */
+            color: #ffcc00; /* Yellow text */
+        }
+
+        .form-control::placeholder {
+            color: #ffcc00; /* Yellow placeholder */
+        }
+
+        .btn-primary {
+            background-color: #ffcc00; /* Yellow button */
+            border: none;
+            color: #000; /* Black text */
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #ffdb4d; /* Lighter yellow */
+            color: #000;
+        }
+
+        .toggle-link {
+            color: #ffcc00;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .toggle-link:hover {
+            text-decoration: underline;
+            color: #ffd633;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3 id="formTitle">Login</h3>
+        <form id="authForm">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100" id="authButton">Login</button>
+            <p class="mt-3">
+                <span id="toggleText">Don't have an account?</span>
+                <span class="toggle-link" onclick="toggleForm()">Sign Up</span>
+            </p>
+        </form>
+    </div>
+
+    <script>
+        let isLogin = true;
+
+        function toggleForm() {
+            isLogin = !isLogin;
+            document.getElementById('formTitle').innerText = isLogin ? 'Login' : 'Sign Up';
+            document.getElementById('authButton').innerText = isLogin ? 'Login' : 'Sign Up';
+            document.getElementById('toggleText').innerText = isLogin ? "Don't have an account?" : "Already have an account?";
+        }
+
+        document.getElementById('authForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (isLogin) {
+                const storedEmail = localStorage.getItem('userEmail');
+                const storedPassword = localStorage.getItem('userPassword');
+                if (email === storedEmail && password === storedPassword) {
+                    alert('Login successful!');
+                    window.location.href = 'index.html';
+                } else {
+                    alert('Invalid email or password!');
+                }
+            } else {
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('userPassword', password);
+                alert('Account created successfully! Now login.');
+                toggleForm();
+            }
+        });
+    </script>
+</body>
+</html>
